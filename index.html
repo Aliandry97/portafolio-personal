@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony Polanco — Analista de Sistemas y Desarrollador Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#0a1628;color:#e0eaf8;overflow-x:hidden;cursor:none;}
+
+#cursor{position:fixed;width:16px;height:16px;border-radius:50%;background:#00d4ff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.15s,background 0.2s;box-shadow:0 0 16px #00d4ff,0 0 32px #00d4ff66;}
+#cursor2{position:fixed;width:36px;height:36px;border-radius:50%;border:1.5px solid #00d4ff55;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.1s,top 0.1s;}
+@media(max-width:768px){body{cursor:auto;}#cursor,#cursor2{display:none;}}
+
+canvas#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+nav{position:fixed;top:0;width:100%;z-index:100;background:#0a1628cc;backdrop-filter:blur(12px);border-bottom:1px solid #00d4ff22;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.logo{font-size:1.4rem;font-weight:700;color:#00d4ff;letter-spacing:3px;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:#8ab4d4;text-decoration:none;font-size:0.9rem;letter-spacing:1px;transition:color 0.2s;}
+.nav-links a:hover{color:#00d4ff;}
+@media(max-width:768px){.nav-links{display:none;}}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;z-index:1;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,#00d4ff11 0%,transparent 70%);pointer-events:none;animation:pulse 4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.5;}50%{transform:scale(1.1);opacity:1;}}
+.avatar-ring{width:140px;height:140px;border-radius:50%;border:2px solid #00d4ff;display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:#00d4ff;margin-bottom:2rem;animation:float 3s ease-in-out infinite;position:relative;background:#0d1f3c;}
+.avatar-ring::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid #00d4ff33;animation:spin 8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.hero h1{font-size:3rem;font-weight:700;margin-bottom:0.5rem;opacity:0;animation:fadeUp 0.8s 0.3s ease forwards;}
+.hero h1 span{color:#00d4ff;}
+.typed-text{font-size:1.1rem;color:#5a8ab0;margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.5s ease forwards;min-height:1.5rem;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.tags{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.8s 0.7s ease forwards;}
+.tag{background:#00d4ff11;border:1px solid #00d4ff44;color:#00d4ff;padding:0.3rem 1rem;border-radius:20px;font-size:0.82rem;transition:all 0.2s;}
+.tag:hover{background:#00d4ff22;transform:translateY(-3px);}
+.btn-primary{background:linear-gradient(135deg,#00d4ff,#0066ff);color:#fff;border:none;padding:0.9rem 2.5rem;border-radius:30px;font-size:1rem;font-weight:600;cursor:none;transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;display:inline-block;opacity:0;animation:fadeUp 0.8s 0.9s ease forwards;}
+.btn-primary:hover{transform:scale(1.06) translateY(-2px);box-shadow:0 8px 30px #00d4ff44;}
+
+.wave-wrap{position:relative;z-index:1;overflow:hidden;line-height:0;}
+.wave-wrap svg{display:block;}
+section{padding:5rem 2rem;max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+.section-title{text-align:center;font-size:1.9rem;font-weight:700;margin-bottom:0.5rem;color:#e0eaf8;}
+.section-line{width:60px;height:3px;background:linear-gradient(90deg,#00d4ff,#0066ff);margin:0.5rem auto 3rem;border-radius:2px;}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;}
+.skill-card{background:#0d1f3c;border:1px solid #00d4ff22;border-radius:14px;padding:1.2rem 1rem;text-align:center;transition:all 0.3s;opacity:0;transform:translateY(20px);}
+.skill-card.visible{opacity:1;transform:translateY(0);}
+.skill-card:hover{border-color:#00d4ff;transform:translateY(-8px);box-shadow:0 8px 24px #00d4ff22;}
+.skill-card i{font-size:1.8rem;color:#00d4ff;display:block;margin-bottom:0.5rem;}
+.skill-card span{font-size:0.85rem;color:#8ab4d4;}
+
+.about-card{background:#0d1f3c;border:1px solid #00d4ff22;border-radius:16px;padding:2rem;opacity:0;transform:translateY(20px);transition:all 0.6s;}
+.about-card.visible{opacity:1;transform:translateY(0);}
+.about-card p{color:#8ab4d4;line-height:1.8;margin-bottom:1rem;}
+.edu-item{display:flex;gap:0.8rem;align-items:flex-start;margin-bottom:0.8rem;}
+.edu-item i{color:#00d4ff;font-size:1.1rem;margin-top:3px;}
+.edu-item span{font-size:0.9rem;color:#8ab4d4;}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;}
+.proj-card{background:#0d1f3c;border:1px solid #00d4ff22;border-radius:16px;padding:1.5rem;transition:all 0.3s;opacity:0;transform:translateY(20px);}
+.proj-card.visible{opacity:1;transform:translateY(0);}
+.proj-card:hover{border-color:#00d4ff;transform:translateY(-8px);box-shadow:0 12px 32px #00d4ff22;}
+.proj-icon{font-size:2.2rem;color:#00d4ff;margin-bottom:0.8rem;}
+.proj-card h3{font-size:1rem;color:#e0eaf8;margin-bottom:0.4rem;}
+.proj-card p{font-size:0.85rem;color:#5a8ab0;line-height:1.6;}
+.proj-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.8rem;}
+.ptag{background:#00d4ff11;color:#00d4ff;font-size:0.73rem;padding:0.2rem 0.6rem;border-radius:8px;border:1px solid #00d4ff33;}
+
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;}
+.contact-card{background:#0d1f3c;border:1px solid #00d4ff22;border-radius:14px;padding:1.3rem;text-align:center;transition:all 0.3s;opacity:0;transform:translateY(20px);}
+.contact-card.visible{opacity:1;transform:translateY(0);}
+.contact-card:hover{border-color:#00d4ff;transform:translateY(-5px);}
+.contact-card i{font-size:1.8rem;color:#00d4ff;}
+.contact-card p{font-size:0.82rem;color:#5a8ab0;margin-top:0.4rem;word-break:break-word;}
+footer{text-align:center;padding:2rem;border-top:1px solid #00d4ff22;color:#2a4a6a;font-size:0.85rem;position:relative;z-index:1;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="cursor"></div>
+<div id="cursor2"></div>
+
+<nav>
+  <div class="logo">AP.</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre mí</a></li>
+    <li><a href="#skills">Habilidades</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="avatar-ring"><i class="ti ti-user"></i></div>
+  <h1>Anthony <span>Polanco</span></h1>
+  <div class="typed-text" id="typed"></div>
+  <div class="tags">
+    <span class="tag">Python</span><span class="tag">HTML · CSS · JS</span><span class="tag">MySQL</span><span class="tag">Node.js</span><span class="tag">IA</span><span class="tag">Redes IT</span>
+  </div>
+  <a href="#contacto" class="btn-primary">Contrátame</a>
+</div>
+
+<div class="wave-wrap" style="background:#0a1628;">
+  <svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%;">
+    <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#0d1f3c44"/>
+  </svg>
+</div>
+
+<div id="sobre" style="background:#0d1f3c22;position:relative;z-index:1;">
+<section>
+  <div class="section-title">Sobre mí</div>
+  <div class="section-line"></div>
+  <div class="about-card">
+    <p>Soy Anthony Polanco, profesional venezolano con dos títulos universitarios en tecnología. Me especializo en desarrollo de sistemas web, análisis de soluciones tecnológicas y soporte técnico IT. Trabajo con herramientas modernas de Inteligencia Artificial para entregar proyectos funcionales y de calidad.</p>
+    <p>Soy sordo y me comunico con fluidez mediante lectura labial, lo que no representa ninguna limitación para el trabajo remoto y digital.</p>
+    <div class="edu-item"><i class="ti ti-school"></i><span><strong style="color:#00d4ff;">TSU en Informática</strong> — UPTV Valencia (2019–2023)</span></div>
+    <div class="edu-item"><i class="ti ti-school"></i><span><strong style="color:#00d4ff;">TSU Análisis de Sistemas Web</strong> — IUTEPI (2022–2025)</span></div>
+    <div class="edu-item"><i class="ti ti-map-pin"></i><span>Venezuela · Disponible para trabajo remoto mundial</span></div>
+  </div>
+</section>
+</div>
+
+<div class="wave-wrap" style="background:#0d1f3c22;">
+  <svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%;">
+    <path d="M0,40 C300,0 600,80 900,40 C1050,20 1150,60 1200,40 L1200,80 L0,80 Z" fill="#0a1628"/>
+  </svg>
+</div>
+
+<section id="skills">
+  <div class="section-title">Habilidades</div>
+  <div class="section-line"></div>
+  <div class="skills-grid">
+    <div class="skill-card"><i class="ti ti-brand-html5"></i><span>HTML · CSS</span></div>
+    <div class="skill-card"><i class="ti ti-brand-javascript"></i><span>JavaScript</span></div>
+    <div class="skill-card"><i class="ti ti-database"></i><span>MySQL</span></div>
+    <div class="skill-card"><i class="ti ti-brand-python"></i><span>Python</span></div>
+    <div class="skill-card"><i class="ti ti-server"></i><span>Node.js</span></div>
+    <div class="skill-card"><i class="ti ti-robot"></i><span>Desarrollo IA</span></div>
+    <div class="skill-card"><i class="ti ti-network"></i><span>Redes IT</span></div>
+    <div class="skill-card"><i class="ti ti-cpu"></i><span>Soporte Técnico</span></div>
+    <div class="skill-card"><i class="ti ti-brand-windows"></i><span>Windows · Linux</span></div>
+  </div>
+</section>
+
+<div class="wave-wrap" style="background:#0d1f3c44;">
+  <svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%;">
+    <path d="M0,20 C400,80 800,0 1200,40 L1200,80 L0,80 Z" fill="#0d1f3c44"/>
+  </svg>
+</div>
+
+<div id="proyectos" style="background:#0d1f3c22;position:relative;z-index:1;">
+<section>
+  <div class="section-title">Proyectos</div>
+  <div class="section-line"></div>
+  <div class="projects-grid">
+    <div class="proj-card">
+      <div class="proj-icon"><i class="ti ti-shopping-cart"></i></div>
+      <h3>Sistema de Inventario y Ventas</h3>
+      <p>Control de stock, precios en $ y Bs, lector de códigos, recibos digitales y panel de administrador.</p>
+      <div class="proj-tags"><span class="ptag">HTML</span><span class="ptag">MySQL</span><span class="ptag">JavaScript</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-icon"><i class="ti ti-users"></i></div>
+      <h3>CRM de Gestión de Clientes</h3>
+      <p>Registro de clientes, historial de servicios y sistema de citas para negocios locales.</p>
+      <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">MySQL</span><span class="ptag">CSS</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-icon"><i class="ti ti-chart-bar"></i></div>
+      <h3>Dashboard de Estadísticas</h3>
+      <p>Panel con gráficos en tiempo real, reportes de ventas y estadísticas para toma de decisiones.</p>
+      <div class="proj-tags"><span class="ptag">JavaScript</span><span class="ptag">Charts</span><span class="ptag">API</span></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="wave-wrap" style="background:#0d1f3c22;">
+  <svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%;">
+    <path d="M0,60 C300,0 900,80 1200,20 L1200,80 L0,80 Z" fill="#0a1628"/>
+  </svg>
+</div>
+
+<section id="contacto">
+  <div class="section-title">Contacto</div>
+  <div class="section-line"></div>
+  <div class="contact-grid">
+    <div class="contact-card"><i class="ti ti-mail"></i><p>Anthonypolanco1997@gmail.com</p></div>
+    <div class="contact-card"><i class="ti ti-phone"></i><p>+58 0414-4850828</p></div>
+    <div class="contact-card"><i class="ti ti-map-pin"></i><p>Venezuela · Remoto</p></div>
+    <div class="contact-card"><i class="ti ti-brand-github"></i><p>GitHub Portfolio</p></div>
+  </div>
+</section>
+
+<footer>© 2026 Anthony Polanco · Analista de Sistemas y Desarrollador Web</footer>
+
+<script>
+const cursor=document.getElementById('cursor');
+const cursor2=document.getElementById('cursor2');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  setTimeout(()=>{cursor2.style.left=mx+'px';cursor2.style.top=my+'px';},60);
+});
+document.querySelectorAll('a,button,.skill-card,.proj-card,.contact-card,.tag,.btn-primary').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2)';cursor.style.background='#a855f7';cursor.style.boxShadow='0 0 20px #a855f7,0 0 40px #a855f766';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursor.style.background='#00d4ff';cursor.style.boxShadow='0 0 16px #00d4ff,0 0 32px #00d4ff66';});
+});
+
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+const particles=[];
+for(let i=0;i<80;i++){
+  particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+0.5,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4,alpha:Math.random()*0.5+0.2});
+}
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,212,255,'+p.alpha+')';ctx.fill();
+    p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  });
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle='rgba(0,212,255,'+(0.12*(1-dist/120))+')';ctx.lineWidth=0.5;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+const texts=['Analista de Sistemas','Desarrollador Web','Soporte Técnico IT','Especialista en IA'];
+let ti=0,ci=0,deleting=false;
+const typedEl=document.getElementById('typed');
+function typeEffect(){
+  const current=texts[ti];
+  if(!deleting){typedEl.textContent=current.slice(0,ci+1);ci++;}
+  else{typedEl.textContent=current.slice(0,ci-1);ci--;}
+  if(ci===current.length&&!deleting){setTimeout(()=>{deleting=true;setTimeout(typeEffect,50);},1800);return;}
+  if(ci===0&&deleting){deleting=false;ti=(ti+1)%texts.length;}
+  setTimeout(typeEffect,deleting?40:80);
+}
+typeEffect();
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.15});
+document.querySelectorAll('.skill-card,.proj-card,.contact-card,.about-card').forEach((el,i)=>{
+  el.style.transitionDelay=(i*0.08)+'s';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
